@@ -62,8 +62,10 @@ var Parameters *Configuration
 func init(){
 	file,err := ioutil.ReadFile(DefaultConfigFilename)
 	if err != nil {
-		log.Fatalf("read config file error:%v\n",err)
-		os.Exit(1)
+		//log.Fatalf("read config file error:%v\n",err)
+		//os.Exit(1)
+		log.Printf("read config file error:%v\n",err)
+		return
 	}
 	file = bytes.TrimPrefix(file,[]byte("\xef\xbb\xbf"))
 	config := ConfigFile{}

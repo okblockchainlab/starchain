@@ -27,7 +27,12 @@ var logger *slog.Logger
 func init(){
 	logPath := "./Logs/"
 	logName := "stc.log"
-	logLevel := config.Parameters.PrintLevel
+	var logLevel string
+	if config.Parameters != nil {
+		logLevel = config.Parameters.PrintLevel
+	} else {
+		logLevel = "ERROR"
+	}
 	writes := [] io.Writer{}
 	writes = append(writes,os.Stdout)
 	_,err := os.Stat(logPath)
@@ -259,4 +264,3 @@ func (l *stclog) Fatalf(format string, a ...interface{}){
 	time.Sleep(time.Second*2)
 	os.Exit(1)
 }
-
