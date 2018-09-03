@@ -77,26 +77,6 @@ func init() {
 	crypto.SetAlg(config.Parameters.EncryptAlg)
 }
 
-func GetAddressByPrivateKey(prvkeyStr string) (string, string, error) {
-	prvkey, err := hex.DecodeString(prvkeyStr)
-	if err != nil {
-		return "", "", err
-	}
-
-	account, err := account.NewAccountWithPrivatekey(prvkey)
-	if err != nil {
-		return "", "", err
-	}
-	pubkey, err := account.PubKey().EncodePoint(true)
-	if err != nil {
-		return "", "", err
-	}
-
-	addrStr, err := account.ProgramHash.ToAddress()
-
-	return common.BytesToHexString(pubkey), addrStr, err
-}
-
 type UTXOUnspentInfo struct {
 	Txid  string
 	Index uint32
@@ -361,6 +341,26 @@ func sign(signer signature.Signer, context *contract.ContractContext) error {
 	}
 
 	return nil
+}
+
+func GetAddressByPrivateKey(prvkeyStr string) (string, string, error) {
+	prvkey, err := hex.DecodeString(prvkeyStr)
+	if err != nil {
+		return "", "", err
+	}
+
+	account, err := account.NewAccountWithPrivatekey(prvkey)
+	if err != nil {
+		return "", "", err
+	}
+	pubkey, err := account.PubKey().EncodePoint(true)
+	if err != nil {
+		return "", "", err
+	}
+
+	addrStr, err := account.ProgramHash.ToAddress()
+
+	return common.BytesToHexString(pubkey), addrStr, err
 }
 
 //reference: SendToManyAddress
